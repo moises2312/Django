@@ -188,7 +188,7 @@ def misdatos(request):
     # CREAR: variable de contexto para enviar formulario de usuario y perfil
     context = {
         'form_usuario': form_usuario,
-        'form_perfil': form_perfil
+        'form_perfil': form_perfil,
      }
 
     return render(request, 'core/misdatos.html', context)

@@ -84,7 +84,10 @@ class RegistroPerfilForm(ModelForm):
 class UsuarioForm(ModelForm):
    class Meta:
         model = User
-        fields = '__all__'
+        fields = ['username', 'first_name', 'last_name', 'email']
+        labels = {
+            'email': 'E-mail'
+        }
 
 # PARA LA PAGINA MANTENEDOR DE USUARIOS:
 # Crear PerfilForm como una clase que hereda de ModelForm
@@ -97,4 +100,9 @@ class UsuarioForm(ModelForm):
 class PerfilForm(ModelForm):
     class Meta:
         model = Perfil
-        fields = '__all__'
+        fields = ['tipo_usuario', 'rut', 'direccion', 'subscrito', 'imagen']
+        widgest = {
+            'direccion': forms.Textarea(),
+            'imagen': forms.FileInput(),
+
+        }
