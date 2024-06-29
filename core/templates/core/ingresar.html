@@ -3,21 +3,14 @@
 {% load custom_filters %}
 
 {% block content %}
-
+  <h1>Ingresar a la tienda</h1>
   
   <div class="row justify-content-center">
     <form id="form" method="POST" class="col-5 border border-3 p-4">
 
       {% csrf_token %} 
       
-      <div class="campo ">
-        <label for="username" class="form-label negrita" >Correo</label>
-        <input type="text" id="id_username" name="username" class="form-control" placeholder="Ingrese su correo electrónico">
-    </div>
-    <div class="campo">
-        <label for="password" class="form-label negrita" >Contraseña</label>
-        <input type="password" id="id_password" class="form-control" name="password" placeholder="Ingrese su contraseña">
-    </div>
+      {{ form|as_bootstrap_form}}
       
       <div class="text-center mt-4">
         <button type="submit" class="btn btn-primary"> Ingresar </button>
@@ -29,7 +22,7 @@
   <!-- Combobox de usuarios (QUITAR EN VERSION DE PRODUCCION DEL SOFTWARE) -->
   <!-- NO LO BORRES PARA QUE PUEDAS HACER TUS PRUEBAS MAS RAPIDAMENTE  -->
   {% include 'common/combobox_usuarios.html' %}
-  
+  <br><br><br><br><br><br>
 {% endblock content %}
 
 {% block script %}

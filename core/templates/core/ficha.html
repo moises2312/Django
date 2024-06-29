@@ -9,27 +9,43 @@
 
         {% csrf_token %}
 
-        <div>
-        <img src="/media/{{ imagen }}" width="200" height="200" alt="">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-4 border border-3">
+                    <img src="/media/{{ imagen }}" width="100%">
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <h2 class="fw-bold mb-3">
+                        {{ nombre }} 
+                    </h2>
+                    <h4 class="fw-bold">
+                        {{ html_estado|safe }}  
+                    </h4>
+                    <h2 class="mb-3">
+                        {{ html_precio|safe }}
+                    </h2>
+                    <h4 class="mb-4">
+                        <div class="mb-3">
+                            Descripcion 
+                        </div>
+                        {{ descripcion }}
+                    </h4>
+                    <p>
+                        {{ html_stock|safe }} 
+                    </p>
+                    <input type="hidden" id="accion">
+                    <a href="{% url 'comprar_ahora' %}" class="btn btn-primary ancho-160px"> 
+                        Comprar ahora 
+                    </a>
+                    <a href="{% url 'agregar_producto_al_carrito' id %}" class="btn btn-secondary ancho-160px"> 
+                        Agregar al carrito 
+                    </a>
+                </div>
+            </div>
             
-        {{ nombre }} <br>
-        {{ html_estado|safe }}  <br>
-        {{ html_precio|safe }}  <br>
-        {{ descripcion }}  <br>
-        {{ html_stock|safe }}  <br>
-        </div>
-        
-        <div>
-            <input type="hidden" id="accion">
-            <a href="{% url 'comprar_ahora' %}" class="btn btn-primary ancho-160px"> 
-                Comprar ahora 
-            </a>
-            <a href="{% url 'agregar_producto_al_carrito' id %}" class="btn btn-secondary ancho-160px"> 
-                Agregar al carrito 
-            </a>
         </div>
     </form>
-
+    <br><br><br><br>
 {% endblock content %}
 
 {% block script %}
