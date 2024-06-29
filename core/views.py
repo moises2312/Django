@@ -124,19 +124,35 @@ def registrarme(request):
     
     if request.method == 'POST':
         
-        # CREAR: usar RegistroUsuarioForm para obtener datos del formulario
-        # CREAR: usar RegistroPerfilForm para obtener datos del formulario
-        # CREAR: lógica para crear usuario
-        pass
+        form_usuario = RegistroUsuarioForm(request.POST)
+        form_perfil = RegistroPerfilForm(request.POST, request.FILES)
+
+        if form_usuario.is_valid() and form_perfil.is_valid():
+            usuario = form_usuario.save(commit=False)
+            usuario.is_staff = False
+            perfil = form_perfil.save(commit=False)
+            usuario.save()
+            perfil.usuario_id = usuario.id
+            perfil.tipo_usuario = 'Cliente'
+            perfil.save()
+            premium = ' y aprovechar tus descuentos especiales como cliente PREMIUM' if perfil.subscrito else ''
+            mensaje = f'Tu cuenta de usuario: "{usuario.username}" ha sido creada con éxito. !ya puedes ingresar a la tienda!"'
+            messages.success(request, mensaje)
+            return redirect(ingresar)
+        else:
+            messages.error(request, f'No fue posible crear tu cuenta de cliente.')
+            show_form_errors(request, [form_usuario, form_perfil])
     
     if request.method == 'GET':
-
-        # CREAR: un formulario RegistroUsuarioForm vacío
-        # CREAR: un formulario RegistroPerfilForm vacío
-        pass
+        
+        form_usuario = RegistroUsuarioForm()
+        form_perfil = RegistroPerfilForm()
 
     # CREAR: variable de contexto para enviar formulario de usuario y perfil
-    context = { }
+    context = { 
+        'form_usuario': form_usuario,
+        'form_perfil': form_perfil,
+    }
 
     return render(request, 'core/registrarme.html', context)
 
@@ -145,10 +161,7 @@ def misdatos(request):
 
     if request.method == 'POST':
         
-        # CREAR: un formulario UsuarioForm para recuperar datos del formulario asociados al usuario actual
-        # CREAR: un formulario RegistroPerfilForm para recuperar datos del formulario asociados al perfil del usuario actual
-        # CREAR: lógica para actualizar los datos del usuario
-        pass
+        form = 
 
     if request.method == 'GET':
 
