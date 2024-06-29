@@ -135,7 +135,7 @@ def registrarme(request):
             perfil.usuario_id = usuario.id
             perfil.tipo_usuario = 'Cliente'
             perfil.save()
-            premium = ' y aprovechar tus descuentos especiales como cliente PREMIUM' if perfil.subscrito else ''
+            premium = ' y aprovechar tus descuentos especiales como cliente PREMIUM' if perfil.subscrito else 'cliente'
             mensaje = f'Tu cuenta de usuario: "{usuario.username}" ha sido creada con éxito. !ya puedes ingresar a la tienda!"'
             messages.success(request, mensaje)
             return redirect(ingresar)
@@ -161,16 +161,35 @@ def misdatos(request):
 
     if request.method == 'POST':
         
-        pass
+        form_usuario = UsuarioForm(request.POST, instance=request.user)
+        form_perfil = RegistroPerfilForm(request.POST, request.FILES, instance=request.user.perfil)
+
+        if form_usuario.is_valid() and form_perfil.is_valid():
+            usuario = form_usuario.save(commit=False)
+            perfil = form_perfil.save(commit=False)
+            usuario.save()
+            perfil.usuario_id = usuario.id
+            perfil.save()
+            if perfil.tipo_usuario in ['Administrador', 'Superusuario']:
+                tipo_cuenta = perfil.tipo_usuario
+            else:
+                tipo_cuenta = 'CLIENTE PREMIUM' if perfil.subscrito else 'cliente'
+            messages.success(request, f'Tu cuenta de {tipo_cuenta} ha sido actualizada con éxito.')
+            return redirect(misdatos)
+        else:
+            messages.error(request, f'No fue posible guardar tus datos.')
+            show_form_errors(request, [form_usuario, form_perfil])
 
     if request.method == 'GET':
 
-        # CREAR: un formulario UsuarioForm con los datos del usuario actual
-        # CREAR: un formulario RegistroPerfilForm con los datos del usuario actual
-        pass
+        form_usuario = UsuarioForm(instance=request.user)
+        form_perfil = RegistroPerfilForm(instance=request.user.perfil)
     
     # CREAR: variable de contexto para enviar formulario de usuario y perfil
-    context = { }
+    context = {
+        'form_usuario': form_usuario,
+        'form_perfil': form_perfil
+     }
 
     return render(request, 'core/misdatos.html', context)
 
