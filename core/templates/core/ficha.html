@@ -3,13 +3,14 @@
 {% load custom_filters %}
 
 {% block content %}
+    <h1>Ficha de producto</h1>
 
     <form method="post" id="formulario-ficha">
 
         {% csrf_token %}
 
         <div>
-        <img src="/media/{{ producto.imagen }}" width="200" height="200" alt="">
+        <img src="/media/{{ imagen }}" width="200" height="200" alt="">
             
         {{ nombre }} <br>
         {{ html_estado|safe }}  <br>
