@@ -161,7 +161,7 @@ def misdatos(request):
 
     if request.method == 'POST':
         
-        form = 
+        pass
 
     if request.method == 'GET':
 
